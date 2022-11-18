@@ -91,6 +91,8 @@ export default {
     
     this.axios.get('https://apps.yug-avto.ru/API/get/expertbot/data/?token=34b5ac8b71018c0bc7e5c050ed90b243').then((response) => {
       this.Sets = response.data
+      this.Filter.date_to = this.Sets.to
+      this.Filter.date_from = this.Sets.from
     }).then(()=>{
       let user_id = document.getElementById('VueExpertBotApp').getAttribute('user') || 1880
       this.axios.get('https://portal.yug-avto.ru/service/expertbot/api/?entity=user&id='+user_id).then((response) => {
