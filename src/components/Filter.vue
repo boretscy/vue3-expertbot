@@ -25,11 +25,14 @@
             <input type="date" class="form-control form-control-sm" v-model="$parent.Filter.date_to">
           </div>
         </div>
-        <div class="col-md pt-5">
+        <div class="col-md-3 pt-5">
           <fieldset class="pt-1">
             <button type="button" class="btn btn-primary btn-sm me-2" @click.prevent="$parent.getTable">Применить</button>
             <button type="button" class="btn btn-secondary btn-sm" @click.prevent="$parent.clearFilter">Сбросить</button>
           </fieldset>
+        </div>
+        <div class="col-md text-end pt-5">
+          Бот: <a href="https://t.me/YugAvtoExpertFeedbacksBot" target="_blank">https://t.me/YugAvtoExpertFeedbacksBot</a>
         </div>
       </div>
       <div class="row py-3"><div class="col"><hr /></div></div>
