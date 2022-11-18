@@ -133,6 +133,8 @@ export default {
 
       this.axios.get(url).then((response) => {
         this.Items = response.data
+        this.Filter.date_to = this.Sets.to
+        this.Filter.date_from = this.Sets.from
       }).then( () => {
         this.initTable()
       })
