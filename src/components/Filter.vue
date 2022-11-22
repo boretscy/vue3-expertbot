@@ -1,7 +1,7 @@
 <template>
     <div class="container-fluid text-minus">
       <div class="row">
-        <div class="col-md-3">
+        <div class="col-md-2">
           <div class="form-group">
             <label class="form-label mt-4">Дилерский центр</label>
             <select class="form-select form-select-sm" v-model="$parent.Filter.dealership">
@@ -25,7 +25,31 @@
             <input type="date" class="form-control form-control-sm" v-model="$parent.Filter.date_to">
           </div>
         </div>
-        <div class="col-md-3 pt-5">
+        <div class="col-md-2">
+          <div class="form-group">
+            <label class="form-label mt-4">Источник</label>
+            <select class="form-select form-select-sm" v-model="$parent.Filter.source">
+              <option value="0"></option>
+              <option
+                  v-for="i in $parent.Sets.sources"
+                  :key="i.id"
+                  :value="i.id">{{i.name}}</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <div class="form-group">
+            <label class="form-label mt-4">Статус</label>
+            <select class="form-select form-select-sm" v-model="$parent.Filter.status">
+              <option value="0"></option>
+              <option
+                  v-for="i in $parent.Sets.statuses"
+                  :key="i.id"
+                  :value="i.id">{{i.name}}</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-md-2 pt-5">
           <fieldset class="pt-1">
             <button type="button" class="btn btn-primary btn-sm me-2" @click.prevent="$parent.getTable">Применить</button>
             <button type="button" class="btn btn-secondary btn-sm" @click.prevent="$parent.clearFilter">Сбросить</button>

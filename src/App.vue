@@ -4,7 +4,7 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col">
-          <table class="table table-striped table-bordered table-sm" id="data" v-if="User">
+          <table class="table table-striped table-bordered table-sm text-minus" id="data" v-if="User">
             <thead>
               <tr>
                 <th>Дата</th>
@@ -26,25 +26,30 @@
               <tr
                 v-for="(item, indx) in Items"
                 :key="indx"
-                :class="{'table-info': item.success}">
+                :class="{'table-success': item.success, 'table-info': item.process}"
+                >
                   <td>{{ item.date }}</td>
                   <td>{{ item.user }}</td>
                   <td>{{ item.dealership }}</td>
-                  <td v-if="Number(item.passenger)">Пассажирские</td>
-                  <td v-if="Number(item.commercial)">Коммерческие</td>
-                  <td v-if="Number(item.sale)">Продажа</td>
-                  <td v-if="Number(item.buyout)">Выкуп</td>
+                  <td>{{ item.type }}</td>
+                  <td>{{ item.departament }}</td>
                   <td>{{ item.source }}</td>
                   <td>{{ item.date_feedback }}</td>
                   <td><a :href="item.screenshot" target="_blank">Скриншот</a></td>
                   <td>
-                    <input type="text" class="form-control form-control-sm" v-model="item.status" v-if="User.IS_ADMIN">
+                    <select class="form-select form-select-sm" v-model="item.status_id" v-if="User.IS_ADMIN">
+                      <option value="0"></option>
+                      <option
+                          v-for="i in Sets.statuses"
+                          :key="i.id"
+                          :value="i.id">{{i.name}}</option>
+                    </select>
                     <div v-else>{{ item.status }}</div>
                   </td>
                   <td>{{ item.checker_name }}</td>
                   <td>
                     <input type="text" class="form-control form-control-sm" v-model="item.checker_comment" v-if="User.IS_ADMIN">
-                    <div v-else>{{ item.checker_comment }}</div>
+                    <div class="text-minus alert alert-dismissible alert-secondary mt-1" v-if="item.checker_comment">{{ item.checker_comment }}</div>
                   </td>
                   <td>
                     <input type="date" class="form-control form-control-sm" v-model="item.date_response" v-if="User.IS_ADMIN">
@@ -75,7 +80,9 @@ export default {
       Filter: {
         dealership: null,
         date_from: null,
-        date_to: null
+        date_to: null,
+        status: null,
+        source: null
       },
       Sets: null,
       User: null,
@@ -116,6 +123,8 @@ export default {
       let url = 'https://apps.yug-avto.ru/API/get/expertbot/items/?token=34b5ac8b71018c0bc7e5c050ed90b243'
       if ( !this.User.IS_ADMIN ) url += '&user='+this.User.ID
       if (this.Filter.dealership) url += '&dealership='+this.Filter.dealership
+      if (this.Filter.status) url += '&status='+this.Filter.status
+      if (this.Filter.source) url += '&source='+this.Filter.source
       if (this.Filter.date_from) url += '&date_from='+this.Filter.date_from
       if (this.Filter.date_to) url += '&date_to='+this.Filter.date_to
 
@@ -135,6 +144,7 @@ export default {
         this.Items = response.data
         this.Filter.date_to = this.Sets.to
         this.Filter.date_from = this.Sets.from
+        this.Filter.dealership = null
       }).then( () => {
         this.initTable()
       })
@@ -160,21 +170,20 @@ export default {
     setItem(indx) {
       let send = {
         id: this.Items[indx].id,
-        status: this.Items[indx].status,
+        status_id: this.Items[indx].status_id,
         checker_name: this.User.UF_FULL_NAME,
         checker_comment: this.Items[indx].checker_comment,
         date_response: this.Items[indx].date_response,
       }
+      this.Items[indx].process = true
       this.axios.post(
         'https://apps.yug-avto.ru/API/set/expertbot/item/?token=34b5ac8b71018c0bc7e5c050ed90b243',
         JSON.stringify(send),
         {headers: this.headers}
       ).then( () => {
         this.Items[indx].success = true
+        this.Items[indx].process = false
         this.Items[indx].checker_name = this.User.UF_FULL_NAME
-        setTimeout(() => {
-          this.Items[indx].success = false
-        }, 2000);
       })
     }
   }
