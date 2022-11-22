@@ -104,6 +104,7 @@ export default {
       let user_id = document.getElementById('VueExpertBotApp').getAttribute('user') || 1880
       this.axios.get('https://portal.yug-avto.ru/service/expertbot/api/?entity=user&id='+user_id).then((response) => {
         this.User = response.data
+        console.log(response.data)
       }).then( () => {
         let url = 'https://apps.yug-avto.ru/API/get/expertbot/items/?token=34b5ac8b71018c0bc7e5c050ed90b243'
         if ( !this.User.IS_ADMIN ) url += '&user='+this.User.ID
