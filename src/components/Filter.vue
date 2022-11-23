@@ -15,13 +15,13 @@
         </div>
         <div class="col-md-1">
           <div class="form-group">
-            <label class="form-label mt-4">Отзывы с</label>
+            <label class="form-label mt-4">Отзывы с:</label>
             <input type="date" class="form-control form-control-sm" v-model="$parent.Filter.date_from">
           </div>
         </div>
         <div class="col-md-1">
           <div class="form-group">
-            <label class="form-label mt-4">Отзыввы по</label>
+            <label class="form-label mt-4">по:</label>
             <input type="date" class="form-control form-control-sm" v-model="$parent.Filter.date_to">
           </div>
         </div>
