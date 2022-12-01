@@ -35,7 +35,7 @@
                   <td>{{ item.departament }}</td>
                   <td>{{ item.source }}</td>
                   <td>{{ item.date_feedback }}</td>
-                  <td><a :href="item.screenshot" target="_blank">Скриншот</a></td>
+                  <td><a :href="item.screenshot" target="_blank" v-if="item.screenshot">Скриншот</a></td>
                   <td>
                     <select class="form-select form-select-sm" v-model="item.status_id" v-if="User.IS_ADMIN">
                       <option value="0"></option>
